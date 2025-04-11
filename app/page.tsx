@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 
 export default function Home() {
-  const directions = ['North' , 'West' , 'South' , 'East' ];
+  const directions = ['North' , 'East' , 'South' , 'West' ];
   const [ind, setInd] = useState(0)
   const [display, setDisplay] = useState(true)
   const [countdown, setCountdown] = useState(0)
@@ -52,12 +52,25 @@ export default function Home() {
 
   const handleStop = () =>{
     setDisplay(!display)
+    setCountdown(0)
     setTime({
       North: 1,
       West: 1,
       South: 1,
       East: 1
     })
+  }
+
+  const getLight = (d: string):"green" | "yellow" | "red"  =>{
+    if(d === directions[ind]){
+      return 'green';
+    }
+    const total = time['North'] + time['West'] + time['South'] + time['East'];
+    // let timeLeft = total - time[directions[ind-1]];
+    // if(d===directions[(ind+1)%4] && time[directions[(ind+1)%4]] <= 2) return 'yellow';
+    if(d===directions[(ind+1)%4] && countdown <= 2) return 'yellow'
+    else return 'red';
+    return 'red';
   }
 
   return (
@@ -88,29 +101,37 @@ export default function Home() {
       )
       
     }
-   {
+   {/* {
           directions.map((d)=>(
             <div key={d} className="flex w-[400px] flex-1 items-center justify-between gap-10 ">
               countdown {d} : {countdown}
               
             </div>
           ))
-        }
-    {/* {
+        } */}
+
+{!display && (
+  <p className="text-center font-bold text-xl">Countdown : {countdown}</p>
+)}
+    {
       !display && (
-      <div className="grid grid-cols-3 grid-rows-3 gap-3 items-center w-full">
+        <div className="flex items-center justify-center w-full mt-10">
+
+      <div className="grid grid-cols-3 grid-rows-3 items-center w-3/4">
         <div></div>
-        <div className="flex items-center justify-center"><Signal/></div>
+        <div className="flex flex-col items-center border p-2 justify-center"><p>North</p><Signal status={getLight('North')}/></div>
         <div></div>
-        <div className="flex items-center justify-center"><Signal/></div>
+        <div className="flex flex-col items-center border p-2 justify-center"><p>West</p><Signal status={getLight('West')}/></div>
         <div></div>
-        <div className="flex items-center justify-center"><Signal/></div>
+        <div className="flex flex-col items-center border p-2 justify-center"><p>East</p><Signal status={getLight('East')}/></div>
         <div></div>
-        <div className="flex items-center justify-center"><Signal/></div>
+        <div className="flex flex-col items-center border p-2 justify-center"><p>South</p><Signal status={getLight('South')}/></div>
         <div></div>
       </div>
+        </div>
+        
       )
-    } */}
+    }
     </div>
   );
 }

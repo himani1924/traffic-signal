@@ -1,11 +1,14 @@
 import React from 'react'
 
-const Signal = () => {
+type SignalProps = {
+    status: "green" | "yellow" | "red"
+}
+const Signal = ({status}: SignalProps) => {
   return (
-    <div className='flex flex-col h-[210px] p-3 items-center justify-around bg-gray-900 rounded w-[100px]'>
-        <div className='w-[50px] h-[50px] rounded-full bg-red-500'></div>
-        <div className='w-[50px] h-[50px] rounded-full bg-yellow-300'></div>
-        <div className='w-[50px] h-[50px] rounded-full bg-green-500'></div>
+    <div className='flex flex-col h-[130px] p-3 items-center justify-between bg-gray-900 rounded w-[70px]'>
+        <div className={`w-[30px] h-[30px] rounded-full ${status ==='red' ? 'bg-red-500':'bg-white'}`}></div>
+        <div className={`w-[30px] h-[30px] rounded-full ${status ==='yellow' ? 'bg-yellow-500':'bg-white'}`}></div>
+        <div className={`w-[30px] h-[30px] rounded-full ${status ==='green' ? 'bg-green-500':'bg-white'}`}></div>
     </div>
   )
 }
